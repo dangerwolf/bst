@@ -20,7 +20,7 @@ jobs:
     - name: Render PHP to HTML
       run: |
         mkdir dist
-        php index.php > dist/index.html
+        php bst.php > dist/index.html
 
     - name: Upload to Cloudflare Pages
       uses: cloudflare/pages-action@v1
