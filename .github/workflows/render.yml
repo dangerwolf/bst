@@ -1,0 +1,32 @@
+name: Render PHP and Deploy to CF Pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Install PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+
+    - name: Render PHP to HTML
+      run: |
+        mkdir dist
+        php index.php > dist/index.html
+
+    - name: Upload to Cloudflare Pages
+      uses: cloudflare/pages-action@v1
+      with:
+        apiToken: ${{ secrets.CF_API_TOKEN }}
+        accountId: ${{ secrets.CF_ACCOUNT_ID }}
+        projectName: your-project-name
+        directory: dist
+        branch: main
